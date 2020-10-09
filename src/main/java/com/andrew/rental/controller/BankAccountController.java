@@ -24,4 +24,9 @@ public class BankAccountController {
     void deleteBankAccount(@PathVariable("id") UUID id) throws NotFoundException {
         bankAccountService.deleteBankAccountById(id);
     }
+
+    @PostMapping
+    void addBankAccount(@RequestBody BankAccount bankAccount) {
+        bankAccountService.addBankAccount(bankAccount);
+    }
 }

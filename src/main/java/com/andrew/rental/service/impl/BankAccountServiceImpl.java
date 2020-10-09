@@ -42,12 +42,12 @@ public final class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public void increaseBalanceById(UUID userId, int amount) throws NotFoundException {
-        BankAccount bankAccount = getBankAccountByUserId(userId).get(0);
+        List<BankAccount> bankAccounts = getBankAccountByUserId(userId);
+        if (bankAccounts == null) {
+            throw new NotFoundException("Bank account does not exist");
+        }
 
-
-//        if (!bankAccountOptional.isPresent()) {
-//            throw new NotFoundException("Bank account does not exist");
-//        }
+        BankAccount bankAccount = bankAccounts.get(0);
 
         bankAccount.setBalance(bankAccount.getBalance() + amount);
 
