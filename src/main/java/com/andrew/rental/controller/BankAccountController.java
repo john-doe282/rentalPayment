@@ -16,8 +16,13 @@ public class BankAccountController {
     private BankAccountService bankAccountService;
 
     @GetMapping("/user/{id}")
-    List<BankAccount> getBankAccounts(@PathVariable("id") UUID id) {
+    List<BankAccount> getBankAccountsForUser(@PathVariable("id") UUID id) {
         return bankAccountService.getBankAccountByUserId(id);
+    }
+
+    @GetMapping("{id}")
+    BankAccount getBankAccount(@PathVariable("id") UUID id) throws NotFoundException {
+        return bankAccountService.getBankAccountById(id);
     }
 
     @DeleteMapping("{id}")

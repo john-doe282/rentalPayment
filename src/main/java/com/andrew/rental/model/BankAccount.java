@@ -2,9 +2,7 @@ package com.andrew.rental.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -14,6 +12,8 @@ import java.util.UUID;
 @Table(name = "bank_account")
 @Data
 @RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @DynamicUpdate
 public final class BankAccount {
     @Id
@@ -23,7 +23,6 @@ public final class BankAccount {
     private String iban;
     private int balance;
 
-    @JsonIgnore
     @NonNull
     @Column(name = "user_id")
     private UUID userId;
