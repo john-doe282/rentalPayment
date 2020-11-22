@@ -1,7 +1,7 @@
 package com.andrew.rental.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.andrew.rental.AddBankAccountRequest;
+import com.andrew.rental.BankAccountResponse;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -15,6 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicUpdate
+@Builder
 public final class BankAccount {
     @Id
     @GeneratedValue
@@ -26,4 +27,22 @@ public final class BankAccount {
     @NonNull
     @Column(name = "user_id")
     private UUID userId;
+
+    public static BankAccount fromAddBankAccountRequest(
+            AddBankAccountRequest bankAccountRequest) {
+        return new BankAccountBuilder().
+                iban(bankAccountRequest.getIban()).
+                balance((int) bankAccountRequest.getBalance()).
+                userId(UUID.fromString(bankAccountRequest.getUserId())).
+                build();
+    }
+
+    public BankAccountResponse fromBankAccount () {
+        return BankAccountResponse.newBuilder().
+                setId(id.toString()).
+                setBalance(balance).
+                setIban(iban).
+                setUserId(userId.toString()).
+                build();
+    }
 }

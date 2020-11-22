@@ -1,4 +1,4 @@
-package com.andrew.rental.controller;
+package com.andrew.rental.controller.rest;
 
 import com.andrew.rental.dto.PaymentDTO;
 import com.andrew.rental.service.PaymentService;
