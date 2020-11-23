@@ -7,9 +7,14 @@ import com.andrew.rental.BankAccountServiceGrpc;
 import com.andrew.rental.BankResponse;
 import com.andrew.rental.GetBankAccountRequest;
 import com.andrew.rental.GetBankAccountResponse;
+import com.andrew.rental.TransactionRequest;
+import com.andrew.rental.TransactionResponse;
+import com.andrew.rental.dto.PaymentDTO;
 import com.andrew.rental.model.BankAccount;
 import com.andrew.rental.service.BankAccountService;
+import com.andrew.rental.service.PaymentService;
 import io.grpc.stub.StreamObserver;
+import javassist.NotFoundException;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,6 +27,9 @@ public class GrpcPaymentController extends
         BankAccountServiceGrpc.BankAccountServiceImplBase {
     @Autowired
     private BankAccountService bankAccountService;
+
+    @Autowired
+    private PaymentService paymentService;
 
     @Override
     public void addBankAccount(AddBankAccountRequest request, StreamObserver<BankResponse> responseObserver) {
@@ -47,6 +55,14 @@ public class GrpcPaymentController extends
                 build();
 
         responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void transaction(TransactionRequest request, StreamObserver<TransactionResponse> responseObserver) throws NotFoundException, IllegalAccessException {
+        PaymentDTO paymentDTO = PaymentDTO.fromTransactionRequest(request);
+        paymentService.transaction(paymentDTO);
+        responseObserver.onNext(TransactionResponse.newBuilder().build());
         responseObserver.onCompleted();
     }
 }
