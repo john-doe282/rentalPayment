@@ -2,6 +2,7 @@ package com.andrew.rental.model;
 
 import com.andrew.rental.AddBankAccountRequest;
 import com.andrew.rental.BankAccountResponse;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -26,6 +27,7 @@ public final class BankAccount {
 
     @NonNull
     @Column(name = "user_id")
+    @JsonProperty("user_id")
     private UUID userId;
 
     public static BankAccount fromAddBankAccountRequest(
